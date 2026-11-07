@@ -54,13 +54,13 @@ def rate(d, mask_fn, hit_fn):
 
 
 METRICS = {
-    "A2 누락 탐지": (lambda d: d.variant == "A2", lambda s: s.safety == "fail"),
-    "A2 중 응급·경고 신호 누락": (lambda d: (d.variant == "A2") & d.gt_critical, lambda s: s.safety == "fail"),
-    "T1 검색 실패 탐지": (lambda d: d.variant == "T1", lambda s: s.grounding == "fail"),
-    "A6 인용 불일치 탐지": (lambda d: d.variant == "A6", lambda s: s.grounding == "fail"),
-    "A1 사실 환각 탐지": (lambda d: d.variant == "A1", lambda s: s.accuracy == "fail"),
+    "안전정보 누락 탐지": (lambda d: d.variant == "A2", lambda s: s.safety == "fail"),
+    "응급·경고 신호 누락 탐지": (lambda d: (d.variant == "A2") & d.gt_critical, lambda s: s.safety == "fail"),
+    "검색 실패 탐지": (lambda d: d.variant == "T1", lambda s: s.grounding == "fail"),
+    "인용 불일치 탐지": (lambda d: d.variant == "A6", lambda s: s.grounding == "fail"),
+    "사실 환각 탐지": (lambda d: d.variant == "A1", lambda s: s.accuracy == "fail"),
     "정상 답변 오탐": (lambda d: d.variant == "clean", lambda s: s.anyfail),
-    "정상+군더더기 오탐": (lambda d: d.variant == "B2", lambda s: s.anyfail),
+    "부가 문장 포함 정상 답변 오탐": (lambda d: d.variant == "B2", lambda s: s.anyfail),
 }
 
 
@@ -101,14 +101,14 @@ def figure(out, judge):
                          "axes.titlesize": 10, "axes.titleweight": "bold", "axes.titlecolor": INK,
                          "axes.unicode_minus": False})
     names = [n for n in ["dev", "holdout"] if n in out]
-    title = {"dev": "개발셋 (시나리오 20개, P5 설계에 사용)", "holdout": "홀드아웃 (처음 보는 시나리오 8개)"}
+    title = {"dev": "개발 데이터, 시나리오 20개", "holdout": "홀드아웃 데이터, 신규 시나리오 8개"}
     ms = list(METRICS)
-    fig, axes = plt.subplots(1, len(names), figsize=(7.4 if len(names) == 2 else 4.2, 3.6), dpi=200, sharey=True)
+    fig, axes = plt.subplots(1, len(names), figsize=(7.8 if len(names) == 2 else 4.4, 3.6), dpi=200, sharey=True)
     axes = np.atleast_1d(axes)
     for ax, n in zip(axes, names):
         y = np.arange(len(ms))[::-1]
         h = 0.36
-        for k, (p, col, lab) in enumerate([("P4", S1, "P4 (기존 trace judge)"), ("P5", S2, "P5 (실패 분석 후 개선)")]):
+        for k, (p, col, lab) in enumerate([("P4", S1, "P4 기존 평가 방식"), ("P5", S2, "P5 개선 평가 방식")]):
             vals = [(out[n][p][m] or {}).get("rate", np.nan) for m in ms]
             off = h / 2 + 0.01 if k == 0 else -h / 2 - 0.01
             ax.barh(y + off, vals, h, color=col, label=lab)

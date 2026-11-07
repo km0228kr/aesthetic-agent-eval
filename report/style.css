@@ -55,3 +55,8 @@ code { font-family: "DejaVu Sans Mono", monospace; font-size: 7.4pt; background:
 pre { font-family: "DejaVu Sans Mono", monospace; font-size: 7.1pt; background: var(--soft); border-radius: 5px; padding: 7px 9px; margin: 4px 0 6px; white-space: pre-wrap; line-height: 1.45; }
 .foot { margin-top: 10px; font-size: 7.4pt; color: var(--ink3); border-top: 1px solid var(--line); padding-top: 5px; }
 .hl { background: linear-gradient(transparent 62%, #fde7a8 62%); }
+
+ul.plain { padding-left: 15px; margin: 2px 0 8px; }
+ul.small { font-size: 7.6pt; color: var(--ink2); }
+.ci { display: block; font-size: 6.6pt; color: var(--ink3); font-weight: 400; }
+.note { font-size: 7.6pt; color: var(--ink2); margin: 5px 0 0; }

@@ -24,13 +24,13 @@ from sklearn.metrics import cohen_kappa_score, roc_auc_score
 AXES = ["accuracy", "safety", "grounding", "context"]
 CORE = ["clean", "A1", "A2", "A3", "A4", "A5", "A6", "T1", "T2"]
 FAULTS = CORE[1:]
-LABEL = {"clean": "정상(결함 없음)", "A1": "A1 사실 환각", "A2": "A2 안전정보 누락", "A3": "A3 효과 보장·단정",
+LABEL = {"clean": "정상 답변", "A1": "A1 사실 환각", "A2": "A2 안전정보 누락", "A3": "A3 효과 보장·단정",
          "A4": "A4 특정 병원 단정 추천", "A5": "A5 사용자 맥락 무시", "A6": "A6 인용 불일치",
-         "T1": "T1 검색 실패(근거 없음)", "T2": "T2 정보 조회 도구 미호출"}
-PLABEL = {"P1": "P1 총점만", "P2": "P2 +도메인 루브릭", "P3": "P3 +근거·사용자정보", "P4": "P4 +실행기록(trace)"}
+         "T1": "T1 검색 실패", "T2": "T2 정보 조회 도구 미호출"}
+PLABEL = {"P1": "P1 총점 평가", "P2": "P2 루브릭 추가", "P3": "P3 근거 문서 추가", "P4": "P4 실행 기록 추가"}
 ROOTS = ["none", "retrieval_failure", "tool_not_called", "user_context_ignored", "generation_error"]
 RLABEL = {"none": "문제 없음", "retrieval_failure": "검색 실패", "tool_not_called": "도구 미호출",
-          "user_context_ignored": "맥락 무시", "generation_error": "생성 오류"}
+          "user_context_ignored": "사용자 맥락 무시", "generation_error": "생성 오류"}
 B = 2000
 RNG = np.random.default_rng(20261107)
 
@@ -283,7 +283,7 @@ def figures(M, df, tab, figdir):
     ax.grid(which="minor", color=SURF, linewidth=2)
     ax.tick_params(which="minor", length=0)
     ax.xaxis.tick_top()
-    fig.text(0.01, 0.01, "P1: 총점 3점 이하를 '탐지'로 간주 · P2–P4: 해당 결함의 주 평가축을 fail로 판정한 비율 · 결함 유형별 n=20",
+    fig.text(0.01, 0.01, "P1은 총점 3점 이하를 탐지로 간주하고, P2~P4는 해당 결함의 정답 기준을 부적합으로 판정한 비율로 산출함. 결함 유형별 20건 기준",
              fontsize=7, color=INK2)
     fig.tight_layout(rect=(0, 0.03, 1, 1))
     fig.savefig(os.path.join(figdir, "fig1_detection_heatmap.png"))
@@ -310,11 +310,11 @@ def figures(M, df, tab, figdir):
         for yi, m, hi_ in zip(y, means, his):
             ax.text(max(m, hi_) + 0.06, yi, f"{m:.2f}", va="center", fontsize=8, color=INK)
         if blind:
-            ax.text(1.05, -0.95, "주황: 결함이 있는데도 정상 답변과 점수 차이가 0.3점 미만인 유형", fontsize=7.5, color=INK2)
+            ax.text(1.05, -0.95, "주황색은 정상 답변과의 점수 차이가 0.3점 미만인 결함 유형", fontsize=7.5, color=INK2)
         ax.set_yticks(y, [LABEL[v] for v in order], fontsize=8.5)
         ax.set_xlim(1, 5.55)
         ax.set_ylim(-1.3, len(order) - 0.4)
-        ax.set_xlabel("평균 총점 (1–5) · 막대 끝 선: 95% 신뢰구간(시나리오 단위 부트스트랩)", fontsize=8)
+        ax.set_xlabel("평균 총점, 오차 막대는 시나리오 단위 부트스트랩 95% 신뢰구간", fontsize=8)
         ax.xaxis.grid(True, color=GRID, linewidth=0.8)
         ax.set_axisbelow(True)
         ax.axvline(means[0], color=INK2, linewidth=1)
@@ -342,8 +342,8 @@ def figures(M, df, tab, figdir):
                             color="white" if v >= 0.55 else INK)
         ax.set_xticks(range(len(ROOTS)), [RLABEL[r] for r in ROOTS], fontsize=8)
         ax.set_yticks(range(len(ROOTS)), [RLABEL[r] for r in ROOTS], fontsize=8)
-        ax.set_xlabel("Judge가 지목한 원인", fontsize=8)
-        ax.set_ylabel("실제 원인(설계상 정답)", fontsize=8)
+        ax.set_xlabel("평가 모델이 지목한 원인", fontsize=8)
+        ax.set_ylabel("실제 원인", fontsize=8)
         ax.tick_params(length=0)
         for s in ax.spines.values():
             s.set_visible(False)
@@ -364,10 +364,10 @@ def figures(M, df, tab, figdir):
         for k, (jj, col) in enumerate(zip(j_order, [S1, S2])):
             vals = [M["by"][f"{jj}|P4"]["detect_strict"][f]["rate"] for f in FAULTS]
             off = (-w / 2 - 0.01) if k == 0 else (w / 2 + 0.01)
-            ax.bar(x + off, vals, w, color=col, label={"sonnet": "Sonnet judge", "haiku": "Haiku judge"}.get(jj, jj))
+            ax.bar(x + off, vals, w, color=col, label={"sonnet": "Sonnet", "haiku": "Haiku"}.get(jj, jj))
             for xi, v in zip(x, vals):
                 ax.text(xi + off, v + 0.02, f"{v*100:.0f}", ha="center", fontsize=6.8, color=INK)
-        short = {"A1": "A1 환각", "A2": "A2 누락", "A3": "A3 보장", "A4": "A4 유도", "A5": "A5 맥락",
+        short = {"A1": "A1 환각", "A2": "A2 누락", "A3": "A3 보장", "A4": "A4 추천", "A5": "A5 맥락",
                  "A6": "A6 인용", "T1": "T1 검색", "T2": "T2 도구"}
         ax.set_xticks(x, [short[f] for f in FAULTS], fontsize=8)
         ax.set_ylim(0, 1.15)
