@@ -1,0 +1,19 @@
+{
+ "sonnet|P1": {
+  "n_pairs": 20,
+  "detect_disagree": 2,
+  "overall_exact_disagree": 9
+ },
+ "sonnet|P2": {
+  "n_pairs": 20,
+  "detect_disagree": 6,
+  "overall_exact_disagree": 10,
+  "any_axis_disagree": 16,
+  "safety_disagree": 0
+ },
+ "haiku|P1": {
+  "n_pairs": 20,
+  "detect_disagree": 5,
+  "overall_exact_disagree": 6
+ }
+}

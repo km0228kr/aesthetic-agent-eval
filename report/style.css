@@ -1,0 +1,57 @@
+@page { size: A4; margin: 15mm 15mm 14mm 15mm; }
+:root {
+  --ink: #0b0b0b; --ink2: #52514e; --ink3: #7a7975; --line: #e2e1dc; --soft: #f4f3ef;
+  --acc: #2a78d6; --acc-soft: #e9f1fc; --warn: #b8461b; --warn-soft: #fbeee8;
+}
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { margin: 0; font-family: "Noto Sans CJK KR", "Noto Sans KR", sans-serif; color: var(--ink);
+  font-size: 8.9pt; line-height: 1.55; font-weight: 400; background: #fff; word-break: keep-all; }
+h1 { font-size: 19pt; line-height: 1.28; margin: 0 0 4px; font-weight: 700; letter-spacing: -0.3px; }
+h2 { font-size: 12.5pt; margin: 14px 0 6px; font-weight: 700; padding-top: 6px; border-top: 2px solid var(--ink); }
+h2 .num { color: var(--acc); margin-right: 6px; }
+h3 { font-size: 9.8pt; margin: 10px 0 4px; font-weight: 700; }
+p { margin: 0 0 6px; }
+.sub { color: var(--ink2); font-size: 9.6pt; margin-bottom: 2px; }
+.byline { color: var(--ink3); font-size: 8.2pt; margin-bottom: 10px; }
+.page { page-break-after: always; break-after: page; }
+.page:last-child { page-break-after: auto; break-after: auto; }
+.lead { font-size: 9.6pt; line-height: 1.62; margin: 8px 0 10px; }
+.tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 10px 0 12px; }
+.tile { border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px 9px; background: #fff; }
+.tile .k { font-size: 18pt; font-weight: 700; line-height: 1.1; letter-spacing: -0.5px; }
+.tile .k small { font-size: 9pt; font-weight: 500; color: var(--ink2); letter-spacing: 0; }
+.tile .d { font-size: 7.6pt; color: var(--ink2); line-height: 1.45; margin-top: 4px; }
+.box { background: var(--soft); border-radius: 6px; padding: 9px 12px; margin: 8px 0; }
+.box.acc { background: var(--acc-soft); }
+.box.warn { background: var(--warn-soft); }
+.box h3 { margin-top: 0; }
+ul, ol { margin: 2px 0 6px; padding-left: 16px; }
+li { margin: 1.5px 0; }
+table { border-collapse: collapse; width: 100%; margin: 6px 0 8px; font-size: 7.9pt; line-height: 1.42; }
+th { text-align: left; font-weight: 700; color: var(--ink2); border-bottom: 1px solid var(--ink); padding: 3px 5px; vertical-align: bottom; }
+td { border-bottom: 1px solid var(--line); padding: 3px 5px; vertical-align: top; }
+td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.c, th.c { text-align: center; }
+.tag { display: inline-block; font-size: 6.9pt; padding: 0 5px; border-radius: 3px; background: var(--soft); color: var(--ink2); white-space: nowrap; }
+.tag.t { background: var(--acc-soft); color: #1c5cab; }
+.tag.b { background: var(--warn-soft); color: var(--warn); }
+figure { margin: 6px 0 8px; }
+figure img { width: 100%; display: block; }
+figcaption { font-size: 7.6pt; color: var(--ink2); margin-top: 3px; line-height: 1.45; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.two-1-2 { display: grid; grid-template-columns: 1fr 1.25fr; gap: 12px; align-items: start; }
+.flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; margin: 8px 0 10px; }
+.flow .st { border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; position: relative; margin-right: 12px; background: #fff; }
+.flow .st:after { content: "→"; position: absolute; right: -11px; top: 50%; transform: translateY(-50%); color: var(--ink3); font-size: 9pt; }
+.flow .st:last-child:after { content: ""; }
+.flow .st b { display: block; font-size: 8.4pt; margin-bottom: 2px; }
+.flow .st span { font-size: 7.3pt; color: var(--ink2); line-height: 1.4; display: block; }
+.quote { border-left: 3px solid var(--line); padding: 2px 0 2px 9px; color: var(--ink2); margin: 4px 0 6px; font-size: 8.1pt; }
+.quote b { color: var(--ink); }
+.small { font-size: 7.6pt; color: var(--ink2); }
+.mono { font-family: "DejaVu Sans Mono", monospace; font-size: 7.4pt; }
+code { font-family: "DejaVu Sans Mono", monospace; font-size: 7.4pt; background: var(--soft); padding: 0 3px; border-radius: 3px; }
+pre { font-family: "DejaVu Sans Mono", monospace; font-size: 7.1pt; background: var(--soft); border-radius: 5px; padding: 7px 9px; margin: 4px 0 6px; white-space: pre-wrap; line-height: 1.45; }
+.foot { margin-top: 10px; font-size: 7.4pt; color: var(--ink3); border-top: 1px solid var(--line); padding-top: 5px; }
+.hl { background: linear-gradient(transparent 62%, #fde7a8 62%); }

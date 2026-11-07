@@ -1,0 +1,28 @@
+{
+ "per_set": {
+  "dev": {
+   "n": 7,
+   "p4": 1,
+   "p5": 6,
+   "p5_only": 5,
+   "p4_only": 0,
+   "mcnemar_exact_p": 0.0625
+  },
+  "holdout": {
+   "n": 8,
+   "p4": 1,
+   "p5": 7,
+   "p5_only": 6,
+   "p4_only": 0,
+   "mcnemar_exact_p": 0.03125
+  }
+ },
+ "pooled": {
+  "n": 15,
+  "p4": 2,
+  "p5": 13,
+  "p5_only": 11,
+  "p4_only": 0,
+  "mcnemar_exact_p": 0.0009765625
+ }
+}
